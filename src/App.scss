@@ -1,0 +1,176 @@
+@use './css/palette.scss' as *;
+
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: $dark;
+  min-height: 100vh;
+  font-size: calc(10px + 2vmin);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Header {
+  color: white;
+  width: 100%;
+  height: 15vh;
+
+  display: flex;
+  padding: 20px 0;
+  z-index: 100;
+}
+
+.left {
+  display: flex;
+  margin-left: 3em;
+}
+
+.logo_text {
+  margin-left: 1em;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.right {
+  margin-left: auto;
+  margin-right: 3em;
+}
+
+.media_link {
+  background-color: $light;
+  border-radius: 50%;
+  width: 2.5em;
+  padding: 0.5em;
+  margin-right: 0.5em;
+}
+
+.Main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 80vh;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.page {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.start_screen {}
+
+.side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.humans {
+  background-color: lightblue;
+}
+
+.robots {
+  background-color: lightcoral;
+}
+
+.start_pos {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  top: 50%;
+}
+
+.start_btn {
+  background-color: rgb(78, 30, 192);
+  color: white;
+  padding: 0.5em 1.5em;
+  outline: none;
+  border: none;
+  border-radius: 0.25em;
+}
+
+.start_btn:hover {
+  background-color: rgb(44, 9, 126);
+}
+
+.select_screen {
+  padding: 2em 4em;
+}
+
+.side_selected_char {
+  width: 50%;
+  margin-right: 3em;
+}
+
+.selected_char {
+  width: 100%;
+  height: 100%;
+}
+
+.options {
+  width: 100%;
+  height: 100%;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.img_container{
+  width: 100%;
+  padding: 1.5em;
+}
+
+.selected_img{
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  background-color: rebeccapurple;
+}
+
+.fight_btn {
+  background-color: rgb(218, 46, 40);
+  color: white;
+  width: 100%;
+  outline: none;
+  border: none;
+  border-radius: 0.25em;
+}
+
+.Footer {
+  background: $bg;
+  width: 100%;
+  height: 5vh;
+  font-size: 0.75em;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.Card {
+  z-index: 10;
+  background-color: $bg;
+  width: 25em;
+  border-radius: 0.25em;
+  border: 5px info solid;
+  color: white;
+
+  padding: 1.5em 0;
+}
