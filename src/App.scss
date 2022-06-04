@@ -65,6 +65,11 @@
   height: 100%;
 }
 
+.card {
+  background-color: seashell;
+  border-radius: 0.25em;
+}
+
 .start_screen {}
 
 .side {
@@ -103,9 +108,48 @@
   background-color: rgb(44, 9, 126);
 }
 
+//select
 .select_screen {
-  padding: 2em 4em;
+  padding: 2em 3em;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-gap: 1em;
 }
+
+.select_container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+}
+
+.selected_character{
+  width: 100%;
+  height: 100%;
+  margin-bottom: 1em;
+  background-color: aquamarine;
+}
+
+.options {
+  width: 100%;
+  height: 100%;
+}
+
+.fight_btn {
+  background-color: rgb(218, 46, 40);
+  color: white;
+  width: 100%;
+  outline: none;
+  border: none;
+  border-radius: 0.25em;
+}
+
+.selected_img{
+  margin-left: auto;
+  margin-right: auto;
+}
+/**/
 
 .side_selected_char {
   width: 50%;
@@ -117,39 +161,14 @@
   height: 100%;
 }
 
-.options {
-  width: 100%;
-  height: 100%;
-}
-
 .column {
   flex-direction: column;
-}
-
-.img_container{
-  width: 100%;
-  padding: 1.5em;
-}
-
-.selected_img{
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
 }
 
 .stats {
   display: flex;
   flex-direction: column;
   background-color: rebeccapurple;
-}
-
-.fight_btn {
-  background-color: rgb(218, 46, 40);
-  color: white;
-  width: 100%;
-  outline: none;
-  border: none;
-  border-radius: 0.25em;
 }
 
 .Footer {
@@ -164,13 +183,24 @@
   z-index: 10;
 }
 
-.Card {
-  z-index: 10;
-  background-color: $bg;
-  width: 25em;
-  border-radius: 0.25em;
-  border: 5px info solid;
-  color: white;
+/*
+API CSS
+*/
+.API{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 80vh;
+}
 
-  padding: 1.5em 0;
+.api_container{
+  padding: 4em 6em;
+  width: 100%;
+  height: 100%;
+}
+
+.api_card{
+  width: 100%;
+  height: 100%;
+  background-color: whitesmoke;
 }

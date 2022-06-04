@@ -23,12 +23,27 @@ function Main() {
                     </button>
                 </div>
             </div>
+
             <div className="select_screen page hidden" data-page="1">
-                <div className="side column side_selected_char">
-                    <div className="card selected_char">
+                <div className="select_container">
+                    <div className="options card">
+                        <div className="card_title">
+                            CHARACTER SELECT
+                        </div>
+                        <div id="character_selecter" className="options">
+                            <div className="option">
+                                CHARACTER-1
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="select_container">
+                    <div className="selected_character card">
+
                         <span className="char_name">CHARACTER 1</span>
-                        <div className="img_container">
-                        <img className="selected_img" src={logo}></img>
+                        <div>
+                            <img className="selected_img" width="250px" src={logo}></img>
+                            <img className="selected_img" width="250px" src={logo}></img>
                         </div>
                         <div className="stats">
                             <div className="">
@@ -40,16 +55,16 @@ function Main() {
                                 <span>DEF</span>
                             </div>
                         </div>
+
                     </div>
                     <button className="fight_btn" onClick={() => nextPage(2)}>
-                        START
+                        wowsies btn
                     </button>
                 </div>
-                <div className="side side_options">
-                    <div className="card options">
-                        Options
-                    </div>
-                </div>
+            </div>
+            
+            <div className="fight_screen page hidden" data-page="2">
+                wows
             </div>
         </div>
     );
