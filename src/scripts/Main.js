@@ -4,8 +4,8 @@ import $ from 'jquery'
 
 function Main() {
     function nextPage(pageIndex) {
-        $('.page').addClass('hidden');
-        $(".page[data-page='" + pageIndex + "']").removeClass('hidden')
+        $('.page').hide("fast")
+        $(".page[data-page='" + pageIndex + "']").show("fast")
     }
 
     return (
@@ -24,7 +24,7 @@ function Main() {
                 </div>
             </div>
 
-            <div className="select_screen page hidden" data-page="1">
+            <div className="select_screen page" style={{display: 'none'}} data-page="1">
                 <div className="select_container">
                     <div className="options card">
                         <div className="card_title">
@@ -63,7 +63,7 @@ function Main() {
                 </div>
             </div>
             
-            <div className="fight_screen page hidden" data-page="2">
+            <div className="fight_screen page" style={{display: 'none'}} data-page="2">
                 wows
             </div>
         </div>
