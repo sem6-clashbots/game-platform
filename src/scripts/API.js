@@ -1,10 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import { Stomp } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
+import SockJS from 'sockjs-client'
 import $ from 'jquery'
 
 const base_url = "http://localhost:9191"
+const SOCKET_URL = 'http://localhost:9191/ws';
+//'http://localhost:8080/gs-guide-websocket'
 
 function API() {
 
@@ -22,66 +24,32 @@ function API() {
     }
 
     /* WEBSOCKET */
-    var stompClient = null;
-
-    function setConnected(connected) {
-        $("#connect").prop("disabled", connected);
-        $("#disconnect").prop("disabled", !connected);
-        if (connected) {
-            $("#conversation").show();
-        }
-        else {
-            $("#conversation").hide();
-        }
-        $("#greetings").html("");
+    let stomp = null;
+    let testMsg = {
+        gameId: "304dc6c5-6eca-4fe5-9a18-167172f38e0b",
+        senderAddress: "testAddressSend",
+        receiverAddress: "testAddressRec",
+        message: "testmsg"
     }
-
+    
     function connect() {
-        // console.log('oof')
-        // // var socket = new SockJS(base_url + '/games/ws');
-        // var socket = new WebSocket('ws://localhost:9191/games/ws');
-        // stompClient = Stomp.over(socket);
-        // stompClient.connect({}, function (frame) {
-        //     setConnected(true);
-        //     console.log('Connected: ' + frame);
-        //     stompClient.subscribe('/topic/greetings', function (greeting) {
-        //         console.log('pending greeting', greeting)
-        //         showConnected(JSON.parse(greeting.body).content);
-        //     });
-        // });
-        
-        stompClient = new window.StompJs.Client({
-          webSocketFactory: function () {
-            return new WebSocket("ws://localhost:9191/games");
-          }
+        var socket = new SockJS(SOCKET_URL);
+        stomp = Stomp.over(socket);
+
+        stomp.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+            stomp.subscribe('/game/' + testMsg.gameId + "/start", function (msg) {
+                console.log(JSON.parse(msg.body).content);
+            });
         });
-        // stompClient.onConnect = function (frame) {
-        //   frameHandler(frame)
-        // };
-        // stompClient.onWebsocketClose = function () {
-        //   onSocketClose();
-        // };
-  
-        stompClient.activate();
     }
 
     function disconnect() {
-        if (stompClient !== null) {
-            stompClient.disconnect();
-        }
-        setConnected(false);
-        console.log("Disconnected");
-    }
 
-    function showConnected(message) {
-        console.log('showing greeting', message)
-        $("#content").append("<tr><td>" + message + "</td></tr>");
     }
 
     function send() {
-        stompClient.send("/games/hello", {}, JSON.stringify({ 'name': $("#moveContent").val() }));
-        stompClient.send("/app/hello", {}, JSON.stringify({ 'name': $("#moveContent").val() }));
-        stompClient.send("/hello", {}, JSON.stringify({ 'name': $("#moveContent").val() }));
+        stomp.send("/app/start", {}, JSON.stringify(testMsg));
     }
 
     return (

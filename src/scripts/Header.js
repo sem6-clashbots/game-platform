@@ -14,6 +14,9 @@ function Header() {
                 <img className='media_link' src={discord}></img>
                 <img className='media_link' src={twitter}></img>
                 <img className='media_link' src={opensea}></img>
+                <div>
+                    wallet address here 0x......
+                </div>
             </div>
         </div>
     );
