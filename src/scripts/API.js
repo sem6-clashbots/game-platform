@@ -56,7 +56,7 @@ function API() {
         <div className="API">
             <div className='api_container'>
                 <div className='api_card'>
-                    <h1>API TEST PAGE</h1>
+                    <h1>API TEST PAGE!</h1>
                     <div>
                         <button onClick={() => sendTestRequest()}>
                             sendTestRequest()
