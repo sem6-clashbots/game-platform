@@ -7,6 +7,7 @@ class Start extends React.Component {
         $('.page').hide()
         $(".page[data-page='" + 1 + "']").show()
     }
+    
     render(){
         return (
             <div className="start_screen page" data-page="0">

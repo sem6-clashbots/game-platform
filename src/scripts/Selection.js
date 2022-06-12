@@ -39,10 +39,10 @@ class Selection extends React.Component {
                         </div>
     
                     </div>
-                    <button className="fight_btn" onClick={() => this.props.fight("ROBOTS")}>
+                    <button className="fight_btn" onClick={() => this.props.searchGame("ROBOTS")}>
                         Fight AS ROBOT
                     </button>
-                    <button className="fight_btn" onClick={() => this.props.fight("HUMANS")}>
+                    <button className="fight_btn" onClick={() => this.props.searchGame("HUMANS")}>
                         Fight AS HUMAN
                     </button>
                 </div>

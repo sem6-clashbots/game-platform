@@ -76,7 +76,7 @@
   padding: 2em 0;
 }
 
-.card_btn{
+.card_btn {
   width: min-content;
   white-space: nowrap;
   font-size: 1em;
@@ -129,14 +129,14 @@
   grid-gap: 1em;
 }
 
-.select_container{
+.select_container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.selected_character{
+.selected_character {
   width: 100%;
   height: 100%;
   margin-bottom: 1em;
@@ -157,10 +157,20 @@
   border-radius: 0.25em;
 }
 
-.selected_img{
+.end_btn{
+  cursor: pointer;
+  background-color: rgb(218, 46, 40);
+  color: white;
+  outline: none;
+  border: none;
+  border-radius: 0.25em;
+}
+
+.selected_img {
   margin-left: auto;
   margin-right: auto;
 }
+
 /**/
 
 .side_selected_char {
@@ -195,23 +205,194 @@
   z-index: 10;
 }
 
+//Game
+.game_screen {
+  padding: 2em 3em;
+  background-color: yellow;
+}
+
+.game_side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: black solid 3px;
+}
+
+.title_container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: teal;
+  padding: 0.5em;
+  border-bottom: black solid 3px;
+}
+
+.char_title {
+  max-width: 5em;
+  font-size: 1.75em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.game_character_container{
+  margin: auto 0;
+}
+
+.game_character_image{
+
+}
+
+.health_bar{
+  width: 100%;
+  padding: 1em 0;
+  margin: 0;
+}
+
+.hp-0{
+  color: white;
+  background: black;
+}
+
+.hp-1{
+  color: white;
+  background: linear-gradient(90deg, rgba(240,63,63,1) 20%, rgba(0,0,0,1) 20%);
+}
+
+.hp-2{
+  color: white;
+  background: linear-gradient(90deg, rgba(236,149,78,1) 40%, rgba(0,0,0,1) 40%);
+}
+
+.hp-3{
+  background: linear-gradient(90deg, rgba(235,228,80,1) 60%, rgba(0,0,0,1) 60%);
+}
+
+.hp-4{
+  background: linear-gradient(90deg, rgba(202,235,80,1) 80%, rgba(0,0,0,1) 80%);
+}
+
+
+.hp-5{
+  background: linear-gradient(90deg, rgba(94,218,104,1) 100%, rgba(0,0,0,1) 100%);
+}
+
+.game_container {
+  width: 100%;
+  position: relative;
+  background-color: azure;
+}
+
+.centered_absolute {
+  position: absolute;
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.selected_attacks{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2em;
+  top: 50%;
+  transform: translate(50%, -50%);
+}
+
+.flipped{
+  transform: rotateY(180deg);
+}
+
+.moves {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1em;
+  bottom: 0;
+  background-color: palegoldenrod;
+}
+
+.selected_move_picked{
+  background-color: $bg;
+  border-radius: 50%;
+  width: 4em;
+  height: 4em;
+}
+
+.move_btn{
+  background-color: $light;
+  border-radius: 50%;
+  width: 3em;
+  height: 3em;
+  transition-duration: 0.2s;
+  cursor: pointer;
+}
+
+.move_selected{
+  background-color: royalblue;
+  border: 5px $dark outset;
+}
+
+.move_selected_image{
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+}
+
+.move_btn:hover{
+  border: 5px $dark outset;
+  transform: scale(1.1);
+}
+
+.move_image{
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+
+.timer {
+  top: 0;
+  background-color: $bg;
+  font-size: 1.25em;
+  border-radius: 50%;
+  width: 2.5em;
+  padding: 0.35em;
+  color: white;
+  border: outset $dark 5px;
+}
+
+.field {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 35%;
+  width: 100%;
+  height: 100%;
+}
+
+.player_side {
+  background-color: hotpink;
+}
+
+.opponent_side {
+  background-color: brown;
+}
+
+
 /*
 API CSS
 */
-.API{
+.API {
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 80vh;
 }
 
-.api_container{
+.api_container {
   padding: 4em 6em;
   width: 100%;
   height: 100%;
 }
 
-.api_card{
+.api_card {
   width: 100%;
   height: 100%;
   background-color: whitesmoke;

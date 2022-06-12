@@ -1,4 +1,4 @@
-import React, { useEffect, useState, componentDidMount } from "react";
+import React from "react";
 import axios from 'axios';
 import $ from 'jquery'
 import { Stomp } from '@stomp/stompjs';
@@ -11,6 +11,14 @@ import {
     connectWallet,
     getCurrentWalletConnected,
 } from "../js/walletConnect";
+import Search from "./Search.js";
+import Game from "./Game.js";
+import Load from "./Load.js";
+import sword from '../resources/moves/sword.png'
+import shield from '../resources/moves/shield.png'
+import hammer from '../resources/moves/hammer.png'
+import fist from '../resources/moves/fist.png'
+import End from "./End.js";
 
 const base_url = "http://localhost:9191"
 const SOCKET_URL = 'http://localhost:9191/ws';
@@ -18,70 +26,174 @@ const SOCKET_URL = 'http://localhost:9191/ws';
 class Main extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { walletAddress: "" };
-        this.fight = this.fight.bind(this)
+        this.state = { walletAddress: "", playerSide: "", playerHealth: 5, playerMove: sword, opponentHealth: 5, opponentMove: sword };
+        this.searchGame = this.searchGame.bind(this)
     }
 
     componentDidMount() {
         this.fetchData(this)
     }
 
-    fight(userSide) {
-        let that = this;
+    toPage(page) {
+        $('.page').hide()
+        $(".page[data-page='" + page + "']").show()
+    }
 
+    async searchGame(userSide) {
+        let that = this;
+        await this.setState({ playerSide: userSide })
         axios({
             method: 'POST',
             url: base_url + '/games/start',
             data: {
                 userAddress: this.state.walletAddress,
-                userSide: userSide //to be dynamic
+                userSide: this.state.playerSide //to be dynamic
             }
         }).then(function (res) {
-            let game = res.data
+            that.toPage('search')
 
-            //WEBSOCKET CONNECTION
+            let game = res.data
             let socket = new SockJS(SOCKET_URL);
             let stomp = Stomp.over(socket);
-            let msg = {
-                gameId: game.id,
-                senderAddress: that.state.walletAddress,
-                receiverAddress: "testAddressRec",
-                message: "testmsg"
-            }
+
+            window.addEventListener("beforeunload", (ev) => {
+                ev.preventDefault();
+                return ev.returnValue = 'Are you sure you want to close?';
+            });
 
             stomp.connect({}, function () {
-                console.log('Connected!')
-                if(game.status === "IN_PROGRESS"){
-                    //Tell other client to start
-                    console.log('Sending start sign to: ' + game.id)
-                    stomp.send("/app/start", {}, JSON.stringify(msg));
-                }else if(game.status === "SEARCHING"){
-                    //Wait and listen for opponent
-                    console.log("Waiting and listening on: " + game.id)
-                    stomp.subscribe('/game/' + game.id +  "/start", function (res) {
-                        console.log("OPPONENT FOUND", res.body);
-                    });
-                }else{
-                    //error, should be finished or broken?
-                        console.log("Something went wrong! Game already finished or not found...");
-                }
-
-                stomp.subscribe('/game/' + game.id +  "/move", function (res) {
-                    console.log("msg", res.body);
-                    console.log("game start: " + JSON.parse(res.body).gameId);
+                //sync listener
+                stomp.subscribe('/game/' + game.id + "/sync", function (res) {
+                    that.initGame(stomp, game)
+                    stomp.unsubscribe('/game/' + game.id + "/sync", {})
                 });
-                
-                // $('.page').hide()
-                // $(".page[data-page='" + 2 + "']").show()
+
+                if (game.status === "STARTING") {
+                    //Tell other client to start
+                    stomp.send("/app/start", {}, game.id);
+                    that.toPage("load")
+                } else if (game.status === "SEARCHING") {
+                    //Wait and listen for opponent
+                    stomp.subscribe('/game/' + game.id + "/start", function (res) {
+                        that.toPage("load")
+                        stomp.unsubscribe('/game/' + game.id + "/start", {})
+                    });
+                } else {
+                    //error, should be finished or broken?
+                    alert.log("Something went wrong! Game already finished or not found...");
+                }
             });
         }).catch(function (error) {
-            console.log(error)
+            alert.log(error)
         });
     }
 
-    // onGameFound(payload) {
-    //     console.log("game start: " + JSON.parse(payload).content);
-    // }
+    //35.214.226.22
+    //34.91.33.199
+
+    disconnect(stomp) {
+        stomp.unsubscribe()
+    }
+
+    startTimer() {
+        let secondsLeft = 10
+        $('#game_timer').html(secondsLeft)
+        let gameTimer = setInterval(function () {
+            secondsLeft--
+            if (secondsLeft <= 0) {
+                clearInterval(gameTimer);
+                $('#game_timer').html("FIGHT")
+            } else {
+                $('#game_timer').html(secondsLeft)
+            }
+        }, 1000);
+    }
+
+    setHP(element, hp) {
+        element.removeClass();
+        element.addClass('health_bar hp-' + hp)
+        element.html(hp + "/5")
+    }
+
+    setRoundMove(element, move) {
+        switch (move) {
+            case "SWORD":
+                element.find("img").attr("src", sword)
+                break;
+            case "SHIELD":
+                element.find("img").attr("src", shield)
+                break;
+            case "HAMMER":
+                element.find("img").attr("src", hammer)
+                break;
+            default:
+                //no pick
+                element.find("img").attr("src", fist)
+                break;
+        }
+    }
+
+    handleEndRound(stomp, game) {
+        //play animation
+        $('.move_btn').removeClass('move_selected')
+
+        let playerHP = $('#player_health')
+        let opponentHP = $('#opponent_health')
+        let playerMove = $('#player_move_selected')
+        let opponentMove = $('#opponent_move_selected')
+
+        if (this.state.playerSide === "HUMANS") {
+            this.setHP(playerHP, game.human_hp)
+            this.setHP(opponentHP, game.robot_hp)
+            this.setRoundMove(playerMove, game.human_move)
+            this.setRoundMove(opponentMove, game.robot_move)
+        } else if (this.state.playerSide === "ROBOTS") {
+            this.setHP(opponentHP, game.human_hp)
+            this.setHP(playerHP, game.robot_hp)
+            this.setRoundMove(opponentMove, game.human_move)
+            this.setRoundMove(playerMove, game.robot_move)
+        }
+
+        //check if finished => end game
+
+        if (game.status === "IN_PROGRESS") {
+            this.startTimer()
+        } else {
+            //finish
+            let gameWon = game.winner === this.state.playerSide
+            $('#game_result').html("You " + (gameWon ? "won!" : "lost!"))
+            this.toPage('end')
+            stomp.unsubscribe('/game/' + game.id + "/move", {})
+            window.removeEventListener("beforeunload");
+        }
+        //if not finished, reset btns, animations, timer etc
+    }
+
+    initGame(stomp, game) {
+        let that = this
+        that.startTimer()
+        stomp.subscribe('/game/' + game.id + "/move", function (res) {
+            that.handleEndRound(stomp, JSON.parse(res.body))
+        });
+
+        let msg = {
+            gameId: game.id,
+            senderAddress: that.state.walletAddress,
+        }
+
+        $('#move_sword_btn').on('click', () => this.setMove(stomp, 1, msg, $('#move_sword_btn')))
+        $('#move_shield_btn').on('click', () => this.setMove(stomp, 2, msg, $('#move_shield_btn')))
+        $('#move_hammer_btn').on('click', () => this.setMove(stomp, 3, msg, $('#move_hammer_btn')))
+
+        this.toPage(2)
+    }
+
+    setMove(stomp, move, msg, btn) {
+        msg.move = move
+        $('.move_btn').removeClass('move_selected')
+        btn.addClass('move_selected')
+        stomp.send("/app/move", {}, JSON.stringify(msg));
+    }
 
     async fetchData(that) {
         const { address } = await getCurrentWalletConnected();
@@ -113,11 +225,14 @@ class Main extends React.Component {
                             <div className='Main'>
                                 <Start></Start>
 
-                                <Selection fight={this.fight}></Selection>
+                                <Selection searchGame={this.searchGame}></Selection>
 
-                                <div className="fight_screen page" style={{ display: 'none' }} data-page="2">
-                                    wows
-                                </div>
+                                <Search></Search>
+                                <Load></Load>
+
+                                <Game playerHealth={this.playerHealth} opponentHealth={this.opponentHealth}></Game>
+
+                                <End></End>
                             </div>
                         ) : (
                             // CONNECT CARD
