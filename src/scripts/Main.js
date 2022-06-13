@@ -80,11 +80,11 @@ class Main extends React.Component {
                     });
                 } else {
                     //error, should be finished or broken?
-                    alert.log("Something went wrong! Game already finished or not found...");
+                    alert("Something went wrong! Game already finished or not found...");
                 }
             });
         }).catch(function (error) {
-            alert.log(error)
+            alert(error)
         });
     }
 
