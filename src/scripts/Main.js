@@ -20,8 +20,8 @@ import hammer from '../resources/moves/hammer.png'
 import fist from '../resources/moves/fist.png'
 import End from "./End.js";
 
-const base_url = "http://localhost:9191"
-const SOCKET_URL = 'http://localhost:9191/ws';
+const base_url = "https://gateway-cahox.cloud.okteto.net"
+const SOCKET_URL = 'https://gateway-cahox.cloud.okteto.net/ws';
 
 class Main extends React.Component {
     constructor(props) {

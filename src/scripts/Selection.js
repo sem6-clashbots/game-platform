@@ -1,8 +1,5 @@
 import logo from '../resources/webLogo.png'
-import axios from 'axios';
-import $ from 'jquery'
 import React from 'react';
-const base_url = "http://localhost:9191"
 
 class Selection extends React.Component {
     render(){

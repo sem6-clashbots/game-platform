@@ -4,9 +4,8 @@ import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client'
 import $ from 'jquery'
 
-const base_url = "http://localhost:9191"
-const SOCKET_URL = 'http://localhost:9191/ws';
-//'http://localhost:8080/gs-guide-websocket'
+const base_url = "https://gateway-cahox.cloud.okteto.net"
+const SOCKET_URL = 'https://gateway-cahox.cloud.okteto.net/ws';
 
 function API() {
 
