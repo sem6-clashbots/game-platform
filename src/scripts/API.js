@@ -4,8 +4,13 @@ import { Stomp } from '@stomp/stompjs';
 import SockJS from 'sockjs-client'
 import $ from 'jquery'
 
+//production
 const base_url = "https://gateway-cahox.cloud.okteto.net"
 const SOCKET_URL = 'https://gateway-cahox.cloud.okteto.net/ws';
+
+//development
+// const base_url = "http://localhost:9191"
+// const SOCKET_URL = "http://localhost:9191/games/ws"
 
 function API() {
 

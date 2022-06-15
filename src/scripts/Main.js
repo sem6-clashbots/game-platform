@@ -20,8 +20,13 @@ import hammer from '../resources/moves/hammer.png'
 import fist from '../resources/moves/fist.png'
 import End from "./End.js";
 
+//production
 const base_url = "https://gateway-cahox.cloud.okteto.net"
 const SOCKET_URL = 'https://gateway-cahox.cloud.okteto.net/ws';
+
+//development
+// const base_url = "http://localhost:9191"
+// const SOCKET_URL = "http://localhost:9191/ws"
 
 class Main extends React.Component {
     constructor(props) {
@@ -171,6 +176,17 @@ class Main extends React.Component {
 
     initGame(stomp, game) {
         let that = this
+
+
+        let playerHP = $('#player_health')
+        let opponentHP = $('#opponent_health')
+        let playerMove = $('#player_move_selected')
+        let opponentMove = $('#opponent_move_selected')
+        this.setHP(playerHP, 5)
+        this.setHP(opponentHP, 5)
+        this.setRoundMove(playerMove, "WAIT")
+        this.setRoundMove(opponentMove, "WAIT")
+
         that.startTimer()
         stomp.subscribe('/game/' + game.id + "/move", function (res) {
             that.handleEndRound(stomp, JSON.parse(res.body))
